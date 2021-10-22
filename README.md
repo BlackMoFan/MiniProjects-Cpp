@@ -1,2 +1,2 @@
 # PersonalProjects
-This is where I post my personal projects
+This is where I post my personal projects while learning C++
