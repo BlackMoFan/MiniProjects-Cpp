@@ -1,4 +1,4 @@
-//SIMPLE PROGRAM TO DISPLAY ONCE CONNECTED WIFI PROFILES AND 
+//SIMPLE PROGRAM TO DISPLAY ONCE CONNECTED WIFI PROFILES AND
 //OFFER OPTION OF DISPLAYING DETAILS ON ANY PROFILE
 
 //ROD MORENO
@@ -20,21 +20,22 @@ std::ifstream in_display;
 
 
 //from https://stackoverflow.com/questions/478898/how-do-i-execute-a-command-and-get-the-output-of-the-command-within-c-using-po
+//THIS IS OPTIONAL BECAUSE WE CAN ALSO USE "command > file.txt" TO STORE THE RESULT OF THE TERMINAL COMMAND. BUT IT IS GOOD TO STUDY DOING THIS WITHOUT THE system()
 std::string exec(const char* cmd) {
-    char buffer[128];
-    std::string result = "";
-    FILE* pipe = _popen(cmd, "r");
-    if (!pipe) throw std::runtime_error("popen() failed!");
-    try {
-        while (fgets(buffer, sizeof buffer, pipe) != NULL) {
-            result += buffer;
-        }
-    } catch (...) {
-        _pclose(pipe);
-        throw;
-    }
-    _pclose(pipe);
-    return result;
+	char buffer[128];
+	std::string result = "";
+	FILE* pipe = _popen(cmd, "r");
+	if (!pipe) throw std::runtime_error("popen() failed!");
+	try {
+		while (fgets(buffer, sizeof buffer, pipe) != NULL) {
+			result += buffer;
+		}
+	} catch (...) {
+		_pclose(pipe);
+		throw;
+	}
+	_pclose(pipe);
+	return result;
 }
 
 void createFile(std::ofstream& out_display, std::string filename){
@@ -62,7 +63,7 @@ void getProfiles(){
 	std::string result = exec("netsh wlan show profiles");
 	out_display << result << "\n";
 	out_display.close();
-	
+
 	//OPEN THE CREATED FILE
 	openFile(in_display); //open ifstream
 	int l, at, soss, sop;
@@ -71,15 +72,15 @@ void getProfiles(){
 	for(int i = 0; i < 9; i++){
 		in_display.getline(discardData,100,'\n');
 	}
-	
+
 	//CHECKS THE NUMBER OF PROFILES
-	while (in_display.get(c)){ 
+	while (in_display.get(c)){
 		if (c == '\n')
-        l++;
+			l++;
 	}
 	l -= 2;
 	in_display.close();
-	
+
 	//GET NAME OF PROFILES
 	std::cout << "These are all your WiFi Profiles:\n\n";
 	openFile(in_display); //open ifstream
@@ -99,12 +100,12 @@ void getProfiles(){
 		num++;
 	}
 	in_display.close();
-	
+
 	//GET OPTION
 	int option;
 	std::cout << "Enter the number of profile you want to view its details:  ";
 	std::cin >> option;
-	
+
 	//GET THE PROFILE NAME CORRESPONDING TO OPTION
 	openFile(in_display); //open ifstream
 	for(int i = 0; i < 9; i++){
@@ -138,12 +139,12 @@ void getProfiles(){
 	std::cout << "\n\nCommand entered is \"" << theCommand.str().c_str() << "\"\n";
 	std::cout << "Note:  You can view your password under Security settings -> Key Content\n";
 	std::cout << "Result: \n\n";
-	
-	
+
+
 	//CALL CODE FROM STACKOVERFLOW
 	std::string resultProfile = exec(theCommand.str().c_str());
 	std::cout << resultProfile << "\n";
-	
+
 	return;
 }
 
@@ -155,8 +156,8 @@ int main(){
 		std::cin >> choice;
 		system("cls");
 	}while(choice == 'Y');
-	
-	
+
+
 	return 0;
 }
 
@@ -196,9 +197,9 @@ void getProfiles(){
 	//CHECKS THE NUMBER OF PROFILES
 	int l = 0;
 	char c;
-	while (in_display.get(c)){ 
+	while (in_display.get(c)){
 		if (c == '\n')
-        l++;
+			l++;
 	}
 	std::cout << "Total Profiles: " << l << "\n";
 	in_display.close();
@@ -253,14 +254,14 @@ void getProfiles(){
 	std::cout << "\n\nCommand entered is \"" << theCommand.str().c_str() << "\"\n";
 	std::cout << "Note:  You can view your password under wifi security -> psk\n";
 	std::cout << "Result: \n\n";
-	
-	
+
+
 	//PASTE THE CONTENT OF profileFile.txt containing the WiFi details
 	in_display.open("profileFile.txt");
 	if(in_display.fail()){
 		std::cout << "File not found.\n";
 	}
-	while (in_display.get(c)){ 
+	while (in_display.get(c)){
 		std::cout << c;
 	}
 	in_display.close();
@@ -275,7 +276,7 @@ int main(){
 		std::cin >> choice;
 		system("clear");
 	}while(choice == 'Y');
-	
+
 	return 0;
 }
 
